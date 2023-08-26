@@ -1,5 +1,5 @@
 import { execSync, spawn } from 'child_process';
-import { existsSync, rmSync } from 'fs';
+import { existsSync, readFileSync, rmSync, writeFileSync } from 'fs';
 import { Command, CommandRunner, InquirerService } from 'nest-commander';
 import { resolve } from 'path';
 import { chdir, exit } from 'process';
@@ -28,6 +28,7 @@ export class InitCommand extends CommandRunner {
     chdir(path);
     this.cleanGitConfigs();
     await this.installDependencies(packageManager);
+    this.setPackageName(path);
   }
 
   async checkPath(path: string) {
@@ -87,5 +88,14 @@ export class InitCommand extends CommandRunner {
         res(undefined);
       });
     });
+  }
+
+  setPackageName(path: string) {
+    const name = path.split('/').reverse()[0];
+    const packageJsonConfig: { name: string } = JSON.parse(
+      readFileSync('package.json', 'utf-8'),
+    );
+    packageJsonConfig.name = name;
+    writeFileSync('package.json', JSON.stringify(packageJsonConfig, null, 2));
   }
 }
