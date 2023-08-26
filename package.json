@@ -1,9 +1,8 @@
 {
   "name": "@asaje/nest-starter",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
+  "description": "CLI for create nestjs project setup with prisma and basic auth workflow",
+  "author": "Salem AFFA",
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
